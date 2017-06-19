@@ -1,8 +1,9 @@
 # gtracks2   
 ---  
 1. 
-2. [manual.py](#manual)
-3. [transfer.py](#transfer)
+2. 
+3. [transfer.py](#transfer)  
+4. [manual.py](#manual)
 
 Currently finding more persistent authentication.  
 Fixing minor bugs.  
@@ -76,5 +77,14 @@ Need to place it in a Docker Container since it has a lot of dependencies.
 
 
 ## manual.py  
+<a id="manual"></a>
 ### Inserting Tracks Manually:  
+Use `manual.py` to insert a row into a spreadsheet.  
+
+### Sample Calls:  
+`./manual.py [destination_sheetid] [values in columns] <-c credentials_file.json>`  
+
+`./manual.py 1-PTkrZL9sM_Us4NHinZfldQxVCsPj6-xHQedb2lkEj0 1bbi/Fam_3_q10_LG.sorted.bam Fam_3Brain_RNAseq off Familiar treatment 3 guppy brain RNAFam 3 RNAseq NA NA NA NA NA NA NA NA -c ../../client_secret.json`  
+
+Every word, after the sheetid, separated by a space will be inserted into the row up to the optional '-c' flag.  
 
