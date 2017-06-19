@@ -1,9 +1,14 @@
 # gtracks2   
 ---  
+1. 
+2. [manual.py](#manual)
+3. [transfer.py](#transfer)
 
 Currently finding more persistent authentication.  
 Fixing minor bugs.  
 
+## transfer.py  
+<a id="transfer"></a>
 ## Transferring Tracks:  
 ---  
 `transfer.py` can be used to transfer tracks from one Google spreadsheet to another.  
@@ -68,3 +73,8 @@ If you wish to insert to another Sheet within the spreadsheet, you may carefully
 ### Further Improvements:  
 --- 
 Need to place it in a Docker Container since it has a lot of dependencies.  
+
+
+## manual.py  
+### Inserting Tracks Manually:  
+
