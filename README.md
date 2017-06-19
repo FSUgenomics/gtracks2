@@ -1,10 +1,10 @@
-#gtracks2   
+# gtracks2   
 ---  
 
 Currently finding more persistent authentication.  
 Fixing minor bugs.  
 
-#Transferring Tracks:  
+## Transferring Tracks:  
 ---  
 `transfer.py` can be used to transfer tracks from one Google spreadsheet to another.  
 
@@ -23,7 +23,7 @@ Make sure that you have **proper privileges** to write to the destination spread
   
 </p>  
 
-To summarize:  
+**Summary:**   
   1. Create credentials file ('client_secret.json')
   2. Obtain SpreadSheetIDs  
   3. Get Proper Privileges (view SRC, edit DST)  
@@ -32,7 +32,8 @@ To summarize:
 `-c` flag can be used to provide the location of the credentials file, when it is not named `client_secret.json` or if  
 it is located in a different directory.   
  
-###Sample Calls:  
+### Sample Calls:  
+---
   Simple Call:  
   `./transfer.py 1-PTkrZL9sM_Us4NHinZfldQxVCsPj6-xHQedb2lkEj0  1lDStJZQBQehfsSrI9bnOKgwa6bzzlMhoY_AXdns1SWQ -t Fam_3`  
   
@@ -42,7 +43,8 @@ it is located in a different directory.
   Call with API_Key:  
   `./transfer.py 1lDStJZQBQehfsSrI9bnOKgwa6bzzlMhoY_AXdns1SWQ 1HvIQ--bci1cWj8BY8GTtNIoik8XOsFY160aiskN6NIw -t dnsSeq_ear_macs2 cns_turcoFreeling2014 -c ../../../client_secret.json -k B1zaSyCZRo2Xq1h-APhrC7hHxFF8wyuEgT4eA7I`  
  
-###Troubleshooting:  
+### Troubleshooting:  
+---  
 If it fails to find the either spreadsheet, make sure to give the user proper privileges to them.  
 For example, if the spreadsheets are private and owned by someone else, the script will not find them.  
 
@@ -52,15 +54,17 @@ The global variable `VALUE_OPTION` may be changed. Currently, it is set to `RAW`
 is copied and pasted without parsing.  Using option `USER_INPUT` will cause it to be parsed,   
 which can cause problems because it may convert numbers to dates and other formats.  
 
-Summary:  
+**Summary**:  
   1. Proper Permissions  
   2. Delete `client_secret.json` and create a new one.  
   
-###Important Notes:  
+### Important Notes:  
+---  
 API_Key is not necessary. Using the API_Key does **not** allow writing to a spreadsheet even if it is public.  
 Use a credentials file to allow the script to write to spreadsheets. 
 
 If you wish to insert to another Sheet within the spreadsheet, you may carefully change the `RANGE` global variables.  
 
-###Further Improvements:  
+### Further Improvements:  
+--- 
 Need to place it in a Docker Container since it has a lot of dependencies.  
