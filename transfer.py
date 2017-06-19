@@ -198,7 +198,7 @@ def parseArgs():
     #SRC
     parser = argparse.ArgumentParser()
     parser.add_argument("src",
-     help="Enter SPREADSHEETID of source Spreadsheet")
+     help="Enter SPREADSHEETID of source Spreadsheet", action="store")
 
     #DST
     parser.add_argument("dst",
