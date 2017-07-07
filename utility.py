@@ -3,7 +3,10 @@
     Contains Common Functions:
     -require authorized gspread object (AUTH_GSPREAD_OBJ from cred.authorizeGS)
 """
+#TODO: organize!
 #TODO: make insertRow simpler
+#TODO: checkHubDbExists make it re-use doesSheetExist
+
 
 import gspread
 
@@ -11,12 +14,15 @@ import gspread
 #CREATING A NEW SPREADSHEET
 #############################
 #if it already exists returns true, else returns false
-def doesSheetExist(AUTH_GSPREAD_OBJ ,name):
+def doesSheetExist(AUTH_GSPREAD_OBJ ,name=None, id=None):
     #try opening it
     try:
-        sh = AUTH_GSPREAD_OBJ.open(name)
-        print "Error: Spreadsheet '%s' already exists %s" % (name, sh)
-        return True
+        if id is None:
+            sh = AUTH_GSPREAD_OBJ.open(name)
+            return True
+        else:
+            sh = AUTH_GSPREAD_OBJ.open_by_key(id)
+            return True
     except gspread.exceptions.SpreadsheetNotFound:
         return False
 
@@ -28,7 +34,11 @@ def createSheet(AUTH_GSPREAD_OBJ, name):
         SPREADSHEET = AUTH_GSPREAD_OBJ.create(name)
         return SPREADSHEET
     else:
-        return None
+        print \
+        "Error: Spreadsheet '%s' already exists\n\
+        Please erase from Google Drive" % name
+        exit()
+
 
 
 #############################
@@ -66,3 +76,32 @@ def insertRow(AUTH_GSPREAD_OBJ, SPREADSHEET, startCell, fields):
 
     #insert the values
     sh.update_cells(cell_list)
+
+
+#############################
+#OPENING HUBDB
+#############################
+#check if hubDb has been created
+def openHubDb(AUTH_GSPREAD_OBJ, HUBDB_ID_FILE):
+
+    #read spreadsheetid for hubDb
+    try:
+        with open(HUBDB_ID_FILE, 'r') as f:
+            HUBDB_ID = f.readline()
+        print "checkHubDbExists = %s" % HUBDB_ID
+    except:
+        print \
+        "Error: Unable to open .hubDbId\n\
+        please run makeHubDb first!"
+        exit()
+
+    #open hubDB
+    if doesSheetExist(AUTH_GSPREAD_OBJ, id=HUBDB_ID):
+        #return spreadsheet
+        return AUTH_GSPREAD_OBJ.open_by_key(HUBDB_ID)
+    else:
+        #hubDb doesn't exist so exit
+        print \
+        "Error: hubDb Not Found\n\
+        please run makeHubDb first!"
+        exit()
