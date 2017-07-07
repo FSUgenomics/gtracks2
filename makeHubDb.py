@@ -6,26 +6,21 @@ import argparse
 #local
 import utility as util
 
-FIRST_COL = ["hub_name", "hubId", "hub.txt url", "user/host",
+HEADER_ROW = ["hub_name", "hubId", "hub.txt url", "user/host",
             "path to hub directory"]
 
 FILE_SAVE = ".hubDbId"
 
 
 def makeHubDbMain(AUTH_GSPREAD_OBJ, ARGS):
+    global HEADER_ROW
     #gspread object created already
 
-    #create the sheet
+    #create the sheet (exits if error occurs)
     spsheet = util.createSheet(AUTH_GSPREAD_OBJ, ARGS.hubDbname)
 
-    if spsheet is None:
-        print \
-        "makeHubDbMain: Error creating spreadsheet %s" % ARGS.hubDbname
-        exit()
-
-    else:
-        #insert fields in first column
-        util.insertRow(AUTH_GSPREAD_OBJ,spsheet, "A1", FIRST_COL)
+    #insert fields in first column
+    util.insertRow(AUTH_GSPREAD_OBJ,spsheet, "A1", HEADER_ROW)
 
     #save the spreadsheet id to FILE_SAVE
     saveHubDbSheetID(spsheet)
@@ -42,5 +37,7 @@ def saveHubDbSheetID(spsheet):
 
 def printURL(spsheet):
     #create url
-    url = "https://drive.google.com/drive/search?q="+spsheet.title
+    url = "https://docs.google.com/spreadsheets/d/"+spsheet.id
+    #alternative url
+    #url = "https://drive.google.com/drive/search?q="+spsheet.title
     print url
