@@ -17,11 +17,37 @@ HUB_DIR_PATH = None
 
 #main function: creates hub, adds row to hubDb and writes hub to file
 def addHubMain(AUTH_GSPREAD_OBJ, ARGS):
-    global FILE_SAVE, HUB_FIELDS, NEW_HUB_ID
+    global FILE_SAVE, HUB_FIELDS, NEW_HUB_ID, HUB_DIR_PATH
 
     #HUBDB: check hubDb exists (both .hubDbId file and online spsheet)
     #exits if not
     hubDb = util.openHubDb(AUTH_GSPREAD_OBJ, FILE_SAVE)
+
+    #TODO:clean this up
+    #BUG: checking if I can create two of the same hubs!
+    #check no directory with hub already exists
+    errorMssg = ""
+    HUB_DIR_PATH = os.path.join(os.getcwd(), ARGS.hubName)
+    if os.path.exists(HUB_DIR_PATH):
+        errorMssg = "addHub Error: " + HUB_DIR_PATH + " already exists!\n"
+
+    #check no entry exists in hubDb for hub
+    #5. create entry for new Hub in HUBDB
+    hubName_col = hubDb.sheet1.col_values(1)
+
+    #find empty row or replace!!
+    if ARGS.hubName in hubName_col:
+        errorMssg  +=\
+        "addHub Error: Replacing hub '%s' in hubDb '%s'" %\
+        (ARGS.hubName, hubDb.title)
+        empty_row_num = hubName_col.index(ARGS.hubName) + 1
+    #first empty row
+    else:
+        empty_row_num = hubDb.sheet1.col_values(1).index('') + 1
+
+    if errorMssg != "":
+        print errorMssg
+        exit()
 
     #HUB: create with fields and insert row
     #1. create new Hub spreadsheet with fields (exits if error)
@@ -39,20 +65,7 @@ def addHubMain(AUTH_GSPREAD_OBJ, ARGS):
 
 
     #HUBDB: write row
-    #5. create entry for new Hub in HUBDB
-
-    hubName_col = hubDb.sheet1.col_values(1)
-
-    #find empty row or replace!!
-    if ARGS.hubName in hubName_col:
-        print \
-        "addHub: Replacing hub '%s'in hubDb '%s'" % (ARGS.hubName, hubDb.title)
-        empty_row_num = hubName_col.index(ARGS.hubName) + 1
-    #first empty row
-    else:
-        empty_row_num = hubDb.sheet1.col_values(1).index('') + 1
-
-
+    #5
     #pass them to insert row!
     startcell = "A" + str(empty_row_num)
 
@@ -68,6 +81,8 @@ def addHubMain(AUTH_GSPREAD_OBJ, ARGS):
 
     #write hubFile
     util.writeFile(HUB_DIR_PATH, "hub.txt", spsheet)
+
+    util.printURL(ARGS.hubName, NEW_HUB_ID, spsheet)
 
 
 #creates row for Hub from arguments
@@ -101,18 +116,14 @@ def createHubDbRow(ARGS):
     lst.append(path_to_hub_dir)
     return lst
 
-
 #create a directory in cwd with hubName
 def createHubDirectory(hubDirName):
     global HUB_DIR_PATH
-    HUB_DIR_PATH = os.path.join(os.getcwd(), hubDirName)
+
     if not os.path.exists(HUB_DIR_PATH):
         os.makedirs(HUB_DIR_PATH)
     else:
         #BUG: do not remove the directory
         print "\
-        addHub Error: directory '%s' already exists.\n\
-        Remove '%s' to change it"
-        print "addHub: overwriting local hub at %s" % HUB_DIR_PATH
-        shutil.rmtree(HUB_DIR_PATH)
-        os.makedirs(HUB_DIR_PATH)
+        **addHub Error: directory '%s' already exists.\n\
+        Remove '%s' to change it**not really error**" % HUB_DIR_PATH

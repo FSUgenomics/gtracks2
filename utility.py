@@ -100,8 +100,8 @@ def openHubDb(AUTH_GSPREAD_OBJ, HUBDB_ID_FILE):
     else:
         #hubDb doesn't exist so exit
         print \
-        "Utility Error: hubDb Not Found\n\
-        please run makeHubDb first!"
+        "Utility Error: hubDb Sheet Not Found\n\
+        please (erase .hubDbId if necessary and) run makeHubDb first!"
         exit()
 
 
@@ -129,3 +129,17 @@ def writeFile(dir_path, filename, hubSheet, separator=" "):
     with open(file_path, 'w') as f:
         for field,value in zipped:
             f.write(field + separator + value + "\n")
+
+
+
+#Print
+def printURL(title, SHEETID, spsheet):
+    if SHEETID is not None:
+        url = "https://docs.google.com/spreadsheets/d/"+SHEETID
+    else:
+        #create url
+        url = "https://docs.google.com/spreadsheets/d/"+spsheet.id
+
+    #alternative url
+    print "\
+    Your %s google sheet can be found here: \n%s" % (title,url)

@@ -16,7 +16,7 @@ SHEETID = None
 
 
 def makeHubDbMain(AUTH_GSPREAD_OBJ, ARGS):
-    global HEADER_ROW
+    global HEADER_ROW, SHEETID
     #gspread object created already
 
     #does hubDbID already exists
@@ -26,7 +26,7 @@ def makeHubDbMain(AUTH_GSPREAD_OBJ, ARGS):
         print "\
         makeHubDb Error: %s already exists" % FILE_SAVE
         getHubDbSheetId()
-        printURL(None)
+        util.printURL(HUBDB_NAME, SHEETID, None)
         exit()
 
     except IOError:
@@ -44,7 +44,7 @@ def makeHubDbMain(AUTH_GSPREAD_OBJ, ARGS):
     saveHubDbSheetID(spsheet)
 
     #print the url
-    printURL(spsheet)
+    util.printURL(HUBDB_NAME, SHEETID, spsheet)
 
 #save the spreadsheetID of the new spreadsheet
 def saveHubDbSheetID(spsheet):
@@ -59,16 +59,3 @@ def getHubDbSheetId():
 
     with open(FILE_SAVE, 'r') as f:
             SHEETID = f.readline()
-
-
-def printURL(spsheet):
-    global SHEETID
-    if SHEETID is not None:
-        url = "https://docs.google.com/spreadsheets/d/"+SHEETID
-    else:
-        #create url
-        url = "https://docs.google.com/spreadsheets/d/"+spsheet.id
-
-    #alternative url
-    print "\
-    Your _hubDb google sheet can be found here: \n%s" % url
