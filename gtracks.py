@@ -7,7 +7,6 @@
 """
 
 #TODO: add commands and subparsers!!
-#TODO: how will user obtain application credentials?
 #BUG: -c must be provided at the very beginning for main parser to see it
 #BUG: else will have to add it do each subparser?
 
@@ -55,8 +54,8 @@ def argParseMain():
     #parsers for each script
     ##makeHub
     makeHub_parser = subparsers.add_parser("makeHubDb")
-    #spreadsheet name
-    makeHub_parser.add_argument("hubDbname",help="Enter hubDb Spreadsheet Name")
+    #spreadsheet name not needed
+    #makeHub_parser.add_argument("hubDbname",help="Enter hubDb Spreadsheet Name")
 
     #addHub
     addHub_parser = subparsers.add_parser("addHub")
@@ -72,7 +71,6 @@ def argParseMain():
     #shortLabel, longLabel, genomesFile, email, url
 
     ARGS = parser.parse_args()
-    #print "ARGS.command = %s" % ARGS.command
 
 
 #find an optional -c argument and returns it
@@ -92,8 +90,6 @@ def selectScript(AUTH_GSPREAD_OBJ):
     #build function name
     function_str = ARGS.command + "." + ARGS.command + "Main" +\
         "(AUTH_GSPREAD_OBJ, ARGS)"
-
-    #BUG: print "function_str = %s" % function_str
 
     #call the function
     eval(function_str)

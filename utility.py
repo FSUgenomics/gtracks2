@@ -3,12 +3,11 @@
     Contains Common Functions:
     -require authorized gspread object (AUTH_GSPREAD_OBJ from cred.authorizeGS)
 """
-#TODO: organize!
 #TODO: make insertRow simpler
-#TODO: checkHubDbExists make it re-use doesSheetExist
 
 
 import gspread
+import os
 
 #############################
 #CREATING A NEW SPREADSHEET
@@ -35,8 +34,8 @@ def createSheet(AUTH_GSPREAD_OBJ, name):
         return SPREADSHEET
     else:
         print \
-        "Error: Spreadsheet '%s' already exists\n\
-        Please erase from Google Drive" % name
+        "Utility Error: Spreadsheet '%s' already exists\n\
+        in your Google Drive, please erase it" % name
         exit()
 
 
@@ -88,10 +87,9 @@ def openHubDb(AUTH_GSPREAD_OBJ, HUBDB_ID_FILE):
     try:
         with open(HUBDB_ID_FILE, 'r') as f:
             HUBDB_ID = f.readline()
-        print "checkHubDbExists = %s" % HUBDB_ID
     except:
         print \
-        "Error: Unable to open .hubDbId\n\
+        "Utility Error: Unable to open .hubDbId\n\
         please run makeHubDb first!"
         exit()
 
@@ -102,6 +100,32 @@ def openHubDb(AUTH_GSPREAD_OBJ, HUBDB_ID_FILE):
     else:
         #hubDb doesn't exist so exit
         print \
-        "Error: hubDb Not Found\n\
+        "Utility Error: hubDb Not Found\n\
         please run makeHubDb first!"
         exit()
+
+
+#############################
+#CREATING A TXT FILES
+#############################
+#write spreadsheet into corresponding directory (example guppy/hub.txt)
+def writeFile(dir_path, filename, hubSheet, separator=" "):
+    #find empty column index
+    empty_col_num =  hubSheet.sheet1.row_values(1).index('')
+    #get first and second row
+    fields = hubSheet.sheet1.row_values(1)[:empty_col_num]
+    values = hubSheet.sheet1.row_values(2)[:empty_col_num]
+
+    zipped = []
+    #join them
+    for field,value in zip(fields, values):
+        if field != "_" and value != "":
+            zipped.append((field,value))
+
+    #file name and path
+    file_path = os.path.join(dir_path, filename)
+
+    #writing
+    with open(file_path, 'w') as f:
+        for field,value in zipped:
+            f.write(field + separator + value + "\n")
