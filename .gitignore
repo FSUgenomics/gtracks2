@@ -1,0 +1,13 @@
+# Compiled Source #
+###################
+*.pyc
+
+# Keys #
+########
+*.json
+
+
+# Misc #
+########
+README.txt
+token_file
