@@ -1,5 +1,10 @@
-#!/usr/bin/env python
+""" makeHubDb.py:
+    Creates _hubDb spreadsheet on Google Drive, which will contain
+    the hub names, hub sheet ids, hub txt url and path to the hubs
 
+    Sample call:
+    gtracks makeHubDb
+"""
 
 import gspread
 import argparse

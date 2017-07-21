@@ -52,23 +52,39 @@ def argParseMain():
                 dest ="command")
 
     #parsers for each script
-    ##makeHub
-    makeHub_parser = subparsers.add_parser("makeHubDb")
-    #spreadsheet name not needed
-    #makeHub_parser.add_argument("hubDbname",help="Enter hubDb Spreadsheet Name")
 
-    #addHub
+    #### makeHub
+    makeHub_parser = subparsers.add_parser("makeHubDb")
+    #no arguments
+
+    #### addHub
     addHub_parser = subparsers.add_parser("addHub")
-    #spreadsheet name
+    #multiple arguments, hubName is required
+    #shortLabel, longLabel, genomesFile, email, url
     addHub_parser.add_argument("hubName", help="Enter hubName")
     addHub_parser.add_argument("-s", "-shortLabel", help="Enter hubName")
     addHub_parser.add_argument("-l", "-longLabel", help="Enter longlabel")
     addHub_parser.add_argument("-g", "-genomesFile", default="genomes.txt")
     addHub_parser.add_argument("-e", "-email", default="ex@example.com")
-    #TODO: remove default?
     addHub_parser.add_argument("-u", "-url", default="",
             help="Location of Hub on File Server")
-    #shortLabel, longLabel, genomesFile, email, url
+
+
+    #### addHub
+    addGenome_parser = subparsers.add_parser("addGenome")
+    #arguments: hubName, genomeName, trackDb, twoBitPath, organism,
+    #scientificName, defaultPos
+    addGenome_parser.add_argument("hubName",help ="Enter corresponding hubName")
+    addGenome_parser.add_argument("genomeName", help="Enter genome name")
+
+    #TODO: help for -t, -d, -p
+    addGenome_parser.add_argument("-t", "-trackDb",
+        help="Enter location of hubDb.txt")
+    addGenome_parser.add_argument("-p", "-twoBitPath",
+        help="Enter location of hubDb.txt", default="")
+    addGenome_parser.add_argument("-o", "-organism",
+     help = "Enter organism name", default = "")
+    addGenome_parser.add_argument("-d", "-defaultPos", default = "")
 
     ARGS = parser.parse_args()
 

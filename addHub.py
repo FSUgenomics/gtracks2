@@ -1,12 +1,20 @@
 
+""" addHub.py:
+    Once makeHubDb has been called,
+    addHub is used to create a hub, add hubs to _hubDb spreadsheet, and to
+    write the corresponding hub.txt.
+
+    Sample call:
+    python gtracks.py addHub [hub_name] <-s shortLabel> <-l longLabel> <-g genomesFile>
+    <-e email> <-u url of hub on server>
+"""
+
 import credentials as cred
 import utility as util
 import gspread
 import os           #for $USER, $HOSTNAME
 import shutil
 
-#REVIEW: user@host?
-#TODO: test functions
 
 FILE_SAVE = ".hubDbId"
 HUB_FIELDS = ["hub", "shortLabel", "longLabel", "genomesFile",
@@ -19,38 +27,41 @@ HUB_DIR_PATH = None
 def addHubMain(AUTH_GSPREAD_OBJ, ARGS):
     global FILE_SAVE, HUB_FIELDS, NEW_HUB_ID, HUB_DIR_PATH
 
-    #HUBDB: check hubDb exists (both .hubDbId file and online spsheet)
-    #exits if not
+    #####HUBDB: check hubDb exists (both .hubDbId file and online spsheet)
     hubDb = util.openHubDb(AUTH_GSPREAD_OBJ, FILE_SAVE)
 
-    #TODO:clean this up
-    #BUG: checking if I can create two of the same hubs!
-    #check no directory with hub already exists
+    #error checking:
+    #A. check not overwriting directory
     errorMssg = ""
     HUB_DIR_PATH = os.path.join(os.getcwd(), ARGS.hubName)
     if os.path.exists(HUB_DIR_PATH):
-        errorMssg = "addHub Error: " + HUB_DIR_PATH + " already exists!\n"
+        errorMssg = "addHub Error: " + HUB_DIR_PATH + " already exists!"
 
-    #check no entry exists in hubDb for hub
-    #5. create entry for new Hub in HUBDB
-    hubName_col = hubDb.sheet1.col_values(1)
+    #B. check not replacing entry in hubDb
+    #index of column containing hub_name values
+    ind = hubDb.sheet1.row_values(1).index("hub_name") + 1
+    #find empty row
+    first_empty_row = hubDb.sheet1.col_values(ind).index("")
+    #get hub_name column
+    hubName_col =\
+     hubDb.sheet1.col_values(ind)[:first_empty_row]
 
-    #find empty row or replace!!
+    print "hubName ind = %s col = %s" % (ind, hubName_col)
+
+    #error if hub_name entry already exists in hubDb
     if ARGS.hubName in hubName_col:
         errorMssg  +=\
-        "addHub Error: Replacing hub '%s' in hubDb '%s'" %\
+        "\naddHub Error: Replacing hub '%s' in hubDb '%s'" %\
         (ARGS.hubName, hubDb.title)
-        empty_row_num = hubName_col.index(ARGS.hubName) + 1
-    #first empty row
-    else:
-        empty_row_num = hubDb.sheet1.col_values(1).index('') + 1
+        #empty_row_num = hubName_col.index(ARGS.hubName) + 1
 
     if errorMssg != "":
         print errorMssg
         exit()
 
-    #HUB: create with fields and insert row
+    #####HUB: create with fields and insert row
     #1. create new Hub spreadsheet with fields (exits if error)
+    #we want to create another one even if it's already there!
     spsheet = util.createSheet(AUTH_GSPREAD_OBJ, ARGS.hubName + "_hub")
 
     #2. save its id
@@ -63,11 +74,10 @@ def addHubMain(AUTH_GSPREAD_OBJ, ARGS):
     hubRow = createHubRow(ARGS)
     util.insertRow(AUTH_GSPREAD_OBJ, spsheet, "A2", hubRow)
 
-
-    #HUBDB: write row
+    #####HUBDB: write row
     #5
     #pass them to insert row!
-    startcell = "A" + str(empty_row_num)
+    startcell = "A" + str(first_empty_row)
 
     #create the row
     hubDbRow = createHubDbRow(ARGS)
@@ -75,13 +85,14 @@ def addHubMain(AUTH_GSPREAD_OBJ, ARGS):
     #insert it
     util.insertRow(AUTH_GSPREAD_OBJ, hubDb, startcell, hubDbRow)
 
-    #TODO: do not overwrite
+    #####HUB: write the hub into a file
     #create a directory
     createHubDirectory(ARGS.hubName)
 
     #write hubFile
     util.writeFile(HUB_DIR_PATH, "hub.txt", spsheet)
 
+    #print the URL
     util.printURL(ARGS.hubName, NEW_HUB_ID, spsheet)
 
 
@@ -120,10 +131,11 @@ def createHubDbRow(ARGS):
 def createHubDirectory(hubDirName):
     global HUB_DIR_PATH
 
+    print "createHubDirectory HUB_DIR_PATH = %s" % HUB_DIR_PATH
     if not os.path.exists(HUB_DIR_PATH):
         os.makedirs(HUB_DIR_PATH)
     else:
-        #BUG: do not remove the directory
+        #do not remove directory, it contains user data
         print "\
-        **addHub Error: directory '%s' already exists.\n\
-        Remove '%s' to change it**not really error**" % HUB_DIR_PATH
+        addHub Error: directory '%s' already exists.\n\
+        Overwriting '%s' file only" % HUB_DIR_PATH

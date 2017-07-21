@@ -3,6 +3,7 @@
     Contains Common Functions:
     -require authorized gspread object (AUTH_GSPREAD_OBJ from cred.authorizeGS)
 """
+
 #TODO: make insertRow simpler
 
 
@@ -25,18 +26,22 @@ def doesSheetExist(AUTH_GSPREAD_OBJ ,name=None, id=None):
     except gspread.exceptions.SpreadsheetNotFound:
         return False
 
+
 #creates and returns the sheet!
 def createSheet(AUTH_GSPREAD_OBJ, name):
+    #create it
+    #REVIEW: allowing duplicates of hubs
+    SPREADSHEET = AUTH_GSPREAD_OBJ.create(name)
+    return SPREADSHEET
+
     #check if it exists
-    if not doesSheetExist(AUTH_GSPREAD_OBJ, name):
-        #create it
-        SPREADSHEET = AUTH_GSPREAD_OBJ.create(name)
-        return SPREADSHEET
-    else:
-        print \
-        "Utility Error: Spreadsheet '%s' already exists\n\
-        in your Google Drive, please erase it" % name
-        exit()
+    # if not doesSheetExist(AUTH_GSPREAD_OBJ, name):
+    # else:
+    #     pass
+    #     # print \
+    #     # "Utility Error: Spreadsheet '%s' already exists\n\
+        # in your Google Drive, creating another one..." % name
+        # exit()
 
 
 
@@ -142,4 +147,4 @@ def printURL(title, SHEETID, spsheet):
 
     #alternative url
     print "\
-    Your %s google sheet can be found here: \n%s" % (title,url)
+    Your Google Sheet,'%s', can be found here: \n%s" % (title,url)
