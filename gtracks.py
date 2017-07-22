@@ -17,6 +17,7 @@ import argparse
 import credentials as cred
 import makeHubDb
 import addHub
+import addGenome
 
 
 APPLICATION_CREDENTIALS = None

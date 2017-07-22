@@ -9,11 +9,8 @@
     <-e email> <-u url of hub on server>
 """
 
-import credentials as cred
 import utility as util
-import gspread
 import os           #for $USER, $HOSTNAME
-import shutil
 
 
 FILE_SAVE = ".hubDbId"
@@ -37,16 +34,15 @@ def addHubMain(AUTH_GSPREAD_OBJ, ARGS):
     if os.path.exists(HUB_DIR_PATH):
         errorMssg = "addHub Error: " + HUB_DIR_PATH + " already exists!"
 
+    #TODO: put this into a function! row containing what we want "" or hubName
     #B. check not replacing entry in hubDb
     #index of column containing hub_name values
     ind = hubDb.sheet1.row_values(1).index("hub_name") + 1
     #find empty row
-    first_empty_row = hubDb.sheet1.col_values(ind).index("")
+    first_empty_row = hubDb.sheet1.col_values(ind).index("")+1
     #get hub_name column
     hubName_col =\
      hubDb.sheet1.col_values(ind)[:first_empty_row]
-
-    print "hubName ind = %s col = %s" % (ind, hubName_col)
 
     #error if hub_name entry already exists in hubDb
     if ARGS.hubName in hubName_col:
@@ -109,6 +105,7 @@ def createHubRow(ARGS):
     return lst
 
 #create an row for hub to go into hubDb
+#TODO: check the for loop??
 def createHubDbRow(ARGS):
     global NEW_HUB_ID
     #hub_name, hubId, hub.txt url, user/host, path to hub directory
@@ -125,6 +122,9 @@ def createHubDbRow(ARGS):
 
     path_to_hub_dir = os.path.join(os.getcwd(), ARGS.hubName)
     lst.append(path_to_hub_dir)
+
+    #BUG: use a loop to append to lst
+
     return lst
 
 #create a directory in cwd with hubName

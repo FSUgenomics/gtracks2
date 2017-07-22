@@ -6,7 +6,6 @@
     gtracks makeHubDb
 """
 
-import gspread
 import argparse
 import exceptions
 #local

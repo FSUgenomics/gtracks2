@@ -81,7 +81,6 @@ def insertRow(AUTH_GSPREAD_OBJ, SPREADSHEET, startCell, fields):
     #insert the values
     sh.update_cells(cell_list)
 
-
 #############################
 #OPENING HUBDB
 #############################
@@ -109,6 +108,19 @@ def openHubDb(AUTH_GSPREAD_OBJ, HUBDB_ID_FILE):
         please (erase .hubDbId if necessary and) run makeHubDb first!"
         exit()
 
+#similar to openHubDb
+def openSPheet(AUTH_GSPREAD_OBJ, sheetId):
+    #open the hub
+    if doesSheetExist(AUTH_GSPREAD_OBJ, id=sheetId):
+        return AUTH_GSPREAD_OBJ.open_by_key(sheetId)
+    else:
+        #hub doesnt' exist
+        print \
+        "Utility Error: %s Sheet Not Found\n\
+        please run addHub/addGenome first!" % sheetId
+        printURL("hub/genome", sheetId, None)
+        exit()
+
 
 #############################
 #CREATING A TXT FILES
@@ -124,7 +136,7 @@ def writeFile(dir_path, filename, hubSheet, separator=" "):
     zipped = []
     #join them
     for field,value in zip(fields, values):
-        if field != "_" and value != "":
+        if field[0] != "_" and value != "":
             zipped.append((field,value))
 
     #file name and path
