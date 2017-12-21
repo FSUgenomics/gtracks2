@@ -1,9 +1,7 @@
-![Back to Readme](https://github.com/dvera/gtracks2)  
+[Back to Readme](https://github.com/dvera/gtracks2)  
 
 ### Setup:  
 ---  
-
-**Please see the [Setup](setup/) **.  
 
 First, you will need to setup a Google Service Account. Then, enable the Google Drive API and the Google Sheets API on the Service Account. 
 
