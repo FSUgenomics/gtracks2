@@ -1,4 +1,4 @@
-[Back to Readme](https://github.com/dvera/gtracks2)  
+[Back to README.md](https://github.com/dvera/gtracks2)  
 
 ### Setup:  
 ---  
@@ -89,3 +89,6 @@ To setup a Google Service Account, go [here](https://console.developers.google.c
  Then, we created a parent directory in our Google Drive  
  and gave the Service Account permission to access and modify it.  
  Now, we can start using gtracks. The **$gDrivePath** in makeHubDb will only create and modify files within the parent directory.
+ 
+ 
+ [Back to README.md](https://github.com/dvera/gtracks2)
