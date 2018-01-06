@@ -13,31 +13,43 @@ A similar tutorial can be found [here](https://github.com/juampynr/google-spread
 ##### Google Service Account  
 ---  
 To setup a Google Service Account, go [here](https://console.developers.google.com/flows/enableapi?apiid=drive).  
-
- ![Creating Account](https://github.com/dvera/gtracks2/blob/master/imgs/service_account1.png)  
+ <p align="center">
+ <img src="https://github.com/dvera/gtracks2/blob/master/imgs/service_account1.png" align="middle" height="360" width="480" alt="Creating Account">
+ </p>
  
  Click on create project.  
  
-  ![Creating Account2](https://github.com/dvera/gtracks2/blob/master/imgs/service_account2.png)  
+  <p align="center">
+ <img src="https://github.com/dvera/gtracks2/blob/master/imgs/service_account2.png" align="middle" height="360" width="480" alt="Creating Account2">
+ </p>
   
  After creating a project, click on "Go to credentials".  
- 
-  ![Creating Account3](https://github.com/dvera/gtracks2/blob/master/imgs/service_account3.png)  
+   <p align="center">
+ <img src="https://github.com/dvera/gtracks2/blob/master/imgs/service_account3.png" align="middle" height="360" width="480" alt="Creating Account3">
+  </p>
  
  Next, please be sure to select the following options:  
  
-  ![Creating Account4](https://github.com/dvera/gtracks2/blob/master/imgs/service_account4.png)  
+    <p align="center">
+ <img src="https://github.com/dvera/gtracks2/blob/master/imgs/service_account4.png" align="middle" height="360" width="480" alt="Creating Account4">
+  </p>
  
  Selecting these options will allow using `gtracks` without signing in to your Google account each time.   
  At the next screen, choose the following options:  
  
- ![Creating Account5](https://github.com/dvera/gtracks2/blob/master/imgs/service_account5.png)   
+   <p align="center">
+ <img src="https://github.com/dvera/gtracks2/blob/master/imgs/service_account5.png" align="middle" height="360" width="480" alt="Creating Account5">
+  </p>
  
  **The previous step will trigger the downloading of your key. Please rename the key "demo_service_account.json", and place it `gtracks`' working directory.**    
+  
+   <p align="center">
+ <img src="https://github.com/dvera/gtracks2/blob/master/imgs/service_account6.png" align="middle" height="360" width="480" alt="Creating Account6">
+  </p>
  
-  ![Creating Account6](https://github.com/dvera/gtracks2/blob/master/imgs/service_account6.png)  
- 
- ![Creating Account7](https://github.com/dvera/gtracks2/blob/master/imgs/service_account7.png)  
+  <p align="center">
+ <img src="https://github.com/dvera/gtracks2/blob/master/imgs/service_account7.png" align="middle" height="360" width="480" alt="Creating Account7">
+  </p>
  
  #### Enable Google Drive API and Google Sheets API  
  ---  
@@ -46,23 +58,33 @@ To setup a Google Service Account, go [here](https://console.developers.google.c
 
   Start by clicking on the top left corner and select "API and Services".  
   
- ![Enabling Drive API1](https://github.com/dvera/gtracks2/blob/master/imgs/enable1.png) 
+ <p align="center">
+ <img src="https://github.com/dvera/gtracks2/blob/master/imgs/enable1.png" align="middle" height="360" width="480" alt="Enabling Drive API1">
+  </p>
  
  When the menu expands, click on "Dashboard".  
- 
- ![Enabling Drive API2](https://github.com/dvera/gtracks2/blob/master/imgs/enable2.png) 
+
+ <p align="center">
+ <img src="https://github.com/dvera/gtracks2/blob/master/imgs/enable2.png" align="middle" height="360" width="480" alt="Enabling Drive API2">
+  </p>
  
  Click on "Enable APIs and Services".  
  
- ![Enabling Drive API3](https://github.com/dvera/gtracks2/blob/master/imgs/enable3.png)  
+  <p align="center">
+ <img src="https://github.com/dvera/gtracks2/blob/master/imgs/enable3.png" align="middle" height="360" width="480" alt="Enabling Drive API3">
+  </p>
  
  Type "Drive" or "Google Drive" to find the Google Drive API.  
- 
- ![Enabling Drive API4](https://github.com/dvera/gtracks2/blob/master/imgs/enable4.png)  
+
+  <p align="center">
+ <img src="https://github.com/dvera/gtracks2/blob/master/imgs/enable4.png" align="middle" height="360" width="480" alt="Enabling Drive API4">
+  </p>
  
  When it is enable, it will look like the following:  
  
- ![Enabling Drive API5](https://github.com/dvera/gtracks2/blob/master/imgs/enable5.png)  
+   <p align="center">
+ <img src="https://github.com/dvera/gtracks2/blob/master/imgs/enable5.png" align="middle" height="360" width="480" alt="Enabling Drive API5">
+  </p>
  
  **Repeat these steps to enable the Google Sheets API.**
   
@@ -73,21 +95,29 @@ To setup a Google Service Account, go [here](https://console.developers.google.c
  
  First, create a new folder in your Google Drive.  
  
- ![Share Folder](https://github.com/dvera/gtracks2/blob/master/imgs/parent_folder1.png)  
+  <p align="center">
+ <img src="https://github.com/dvera/gtracks2/blob/master/imgs/parent_folder1.png" align="middle" height="360" width="480" alt="Share Folder">
+  </p>
  
  Next, share it with the Service Account.  
  
- ![Share Folder2](https://github.com/dvera/gtracks2/blob/master/imgs/parent_folder2.png)  
+ <p align="center">
+ <img src="https://github.com/dvera/gtracks2/blob/master/imgs/parent_folder2.png" align="middle" height="360" width="480" alt="Share Folder2">
+  </p>
  
  To share the the directory with the Service Account, you will need the Service Account's email.  
  Get the Service Account email by clicking on the top left menu selecting "IAM & admin".  
  With the project selected, you will see the Service Account email.  
  
- ![Share Folder3](https://github.com/dvera/gtracks2/blob/master/imgs/parent_folder3.png)  
+ <p align="center">
+ <img src="https://github.com/dvera/gtracks2/blob/master/imgs/parent_folder3.png" align="middle" height="360" width="480" alt="Share Folder3">
+  </p>
  
  Copy and paste the service account into the "Share with others" field.  
  
- ![Share Folder4](https://github.com/dvera/gtracks2/blob/master/imgs/parent_folder4.png)  
+  <p align="center">
+ <img src="https://github.com/dvera/gtracks2/blob/master/imgs/parent_folder4.png" align="middle" height="360" width="480" alt="Share Folder4">
+  </p>
  
  ** gtracks will only modify files within this parent directory ** (unless another directory has been shared with it).  
  
