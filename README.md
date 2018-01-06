@@ -8,12 +8,12 @@
 2. [addHub](#addHub)    
 
 
-**Please see the [Setup](setup/) to get started.**  
+**Please see the [Setup](setup.md/) to get started.**  
 ### Setup:  
 ---  
 <a id="setup">  
 
-**Please see [Setup](setup/).**    
+**Please see [Setup](setup.md/).**    
 
   
 ## Sample Usage:  
