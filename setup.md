@@ -9,7 +9,7 @@ To get started using `gtracks`, you will need to complete three steps:
 
 A similar tutorial can be found [here](https://github.com/juampynr/google-spreadsheet-reader). 
 
-#### Tutorial:  
+### Tutorial:  
 ##### Google Service Account  
 ---  
 To setup a Google Service Account, go [here](https://console.developers.google.com/flows/enableapi?apiid=drive).  
@@ -64,9 +64,9 @@ To setup a Google Service Account, go [here](https://console.developers.google.c
  
  ![Enabling Drive API5](https://github.com/dvera/gtracks2/blob/master/imgs/enable5.png)  
  
- **Repeat the steps to enable the Google Sheets API.***  
+ **Repeat these steps to enable the Google Sheets API.**
   
- #### Create and share a parent directory in your Google Drive  
+ ### Create and Share Parent Directory in your Google Drive  
  ---  
  Create a 'parent' directory and share it with the Service Account.  
  Sharing the directory will allow the Service Account to create files in your Google Drive.   
