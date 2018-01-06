@@ -14,23 +14,23 @@ A similar tutorial can be found [here](https://github.com/juampynr/google-spread
 ---  
 To setup a Google Service Account, go [here](https://console.developers.google.com/flows/enableapi?apiid=drive).  
  <p align="center">
- <img src="https://github.com/dvera/gtracks2/blob/master/imgs/service_account1.png" align="middle" height="360" width="480" alt="Creating Account">
+ <img src="https://github.com/dvera/gtracks2/blob/master/imgs/service_account1.png" align="middle" height="340" width="480" alt="Creating Account">
  </p>
  
  Click on create project.  
  
   <p align="center">
- <img src="https://github.com/dvera/gtracks2/blob/master/imgs/service_account2.png" align="middle" height="360" width="480" alt="Creating Account2">
+ <img src="https://github.com/dvera/gtracks2/blob/master/imgs/service_account2.png" align="middle" height="380" width="460" alt="Creating Account2">
  </p>
   
  After creating a project, click on "Go to credentials".  
    <p align="center">
- <img src="https://github.com/dvera/gtracks2/blob/master/imgs/service_account3.png" align="middle" height="360" width="480" alt="Creating Account3">
+ <img src="https://github.com/dvera/gtracks2/blob/master/imgs/service_account3.png" align="middle" height="240" width="360" alt="Creating Account3">
   </p>
  
- Next, please be sure to select the following options:  
- 
-    <p align="center">
+ Next, please be sure to select the following options:   
+   
+  <p align="center">
  <img src="https://github.com/dvera/gtracks2/blob/master/imgs/service_account4.png" align="middle" height="360" width="480" alt="Creating Account4">
   </p>
  
