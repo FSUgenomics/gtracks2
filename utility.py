@@ -150,7 +150,7 @@ def writeFile(dir_path, filename, hubSheet, separator=" "):
 
 
 #Print
-def printURL(title, SHEETID, spsheet):
+def printURL(title, SHEETID, spsheet=None):
     if SHEETID is not None:
         url = "https://docs.google.com/spreadsheets/d/"+SHEETID
     else:
@@ -158,5 +158,4 @@ def printURL(title, SHEETID, spsheet):
         url = "https://docs.google.com/spreadsheets/d/"+spsheet.id
 
     #alternative url
-    print "\
-    Your Google Sheet,'%s', can be found here: \n%s" % (title,url)
+    print "\nYour Google Sheet,'%s', can be found here: \n%s" % (title,url)

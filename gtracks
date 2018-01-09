@@ -1,0 +1,165 @@
+#! /usr/bin/python
+""" Main:
+    1. Get Credentials (authorized gspread object)
+    2. Parse Arguments
+    3. Call Appropriate subcommand script (makeHubDb, addHub, etc)
+    Argparse checks for proper arguments, then script executes subcommand
+"""
+
+import os
+import argparse
+from oauth2client.service_account import ServiceAccountCredentials
+import gspread
+import httplib2
+from apiclient import discovery
+
+import makeHubDb
+
+ARGS = None
+SCOPES = ['https://www.googleapis.com/auth/drive',
+          'https://www.googleapis.com/auth/drive.file',
+          'https://www.googleapis.com/auth/drive.metadata',
+          ]
+SERVICE_ACCOUNT_KEY = 'demo_service_account.json'
+GC = None
+DRIVE_SERVICE = None
+
+def main():
+    """
+    Main: Parses arguments, retrieves credentials and calls the
+    appropriate command.
+    """
+    global GC, DRIVE_SERVICE
+    # parse arguments
+    argParseMain()
+
+    # check if SERVICE_ACCOUNT_KEY provided
+    getCredentialsPath()
+
+    # get gspread object and drive service object
+    GC, DRIVE_SERVICE = getCredentials()
+
+    # call appropriate script!
+    selectScript()
+
+# parsing each possible subcommand using subparsers
+def argParseMain():
+    """
+    Uses argparse to obtain arguments for the
+    corresponding command.
+    """
+    global ARGS
+    #####################
+    # gtracks main parser
+    #####################
+    parser = argparse.ArgumentParser(prog="gtracks")
+    parser.add_argument("-c", "-credentials",
+                        help="Provide application credentials file path")
+
+    # dest used to determined which command user selected: ARGS.command
+    subparsers = parser.add_subparsers(title="gtracks subcommands",
+                                       dest="command")
+
+    #####################
+    # makeHubDb subparser
+    #####################
+    makeHub_parser = subparsers.add_parser("makeHubDb")
+    group = makeHub_parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('-p', '-gdrivepath',
+                        help="Google Drive path to parent directory")
+    group.add_argument('-e', '-email',
+                       help='Provide Google email to receive hubDb')
+
+    ##################
+    # addHub subparser
+    ##################
+    addHub_parser = subparsers.add_parser("addHub")
+    # arguments: hubName is required
+    # shortLabel, longLabel, genomesFile, email, url
+    addHub_parser.add_argument("hubName", help="Enter hubName")
+    addHub_parser.add_argument("-s", "-shortLabel", help="Enter hubName")
+    addHub_parser.add_argument("-l", "-longLabel", help="Enter longlabel")
+    addHub_parser.add_argument("-g", "-genomesFile", default="genomes.txt")
+    addHub_parser.add_argument("-e", "-email", default="ex@example.com")
+    addHub_parser.add_argument("-u", "-url", default="",
+                               help="Location of Hub on File Server")
+
+    ###########
+    # addGenome
+    ###########
+    addGenome_parser = subparsers.add_parser("addGenome")
+    # arguments: hubName, genomeName, trackDb, twoBitPath, organism,
+    # scientificName, defaultPos
+    addGenome_parser.add_argument("hubName",
+                                  help="Enter corresponding hubName")
+    addGenome_parser.add_argument("genomeName", help="Enter genome name")
+    addGenome_parser.add_argument("-t", "-trackDb",
+                                  help="Enter location of hubDb.txt")
+    addGenome_parser.add_argument("-p", "-twoBitPath",
+                                  help="Enter location of hubDb.txt",
+                                  default="")
+    addGenome_parser.add_argument("-o", "-organism",
+                                  help="Enter organism name", default="")
+    addGenome_parser.add_argument("-d", "-defaultPos", default="")
+
+    ARGS = parser.parse_args()
+
+def getCredentials():
+    """
+    Gets gspread object using the credentials and
+    gets a drive service object for moving drive folders.
+    """
+    global SERVICE_ACCOUNT_KEY, SCOPES
+
+    # GSPREAD AUTHORIZATION
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(
+                                SERVICE_ACCOUNT_KEY, scopes=SCOPES)
+    # create gspread object
+    gc = gspread.authorize(credentials)
+
+    # FOR MOVING TO GDRIVEPATH
+    http = credentials.authorize(httplib2.Http())
+    drive_service = discovery.build('drive', 'v3', http=http)
+
+    return (gc, drive_service)
+
+# ind an optional -c argument and returns it
+def getCredentialsPath():
+    """
+    Get the credentials path if -c was provided.
+    """
+    global SERVICE_ACCOUNT_KEY, ARGS
+
+    # -c provided
+    if ARGS.c is not None:
+        # -c is valid
+        if os.path.isfile(os.path.abspath(ARGS.c)):
+            SERVICE_ACCOUNT_KEY = os.path.abspath(ARGS.c)
+        # -c not valid (use default)
+        else:
+            print "\
+                \nGtracks Error: Invalid Credentials Path '%s'\
+                \nUsing Default '%s'"\
+                % (ARGS.c, SERVICE_ACCOUNT_KEY)
+            return
+
+
+# call the appropriate script
+def selectScript():
+    """
+    Select Script to execute:
+    makeHubDb, addHub, addGenome
+    """
+    global GC, DRIVE_SERVICE, ARGS
+
+    # build function name
+    function_str = ARGS.command + "." + ARGS.command + "Main" +\
+        "(ARGS, GC, DRIVE_SERVICE)"
+
+    # call the function
+    eval(function_str)
+    exit()
+
+
+if __name__ == "__main__":
+    main()

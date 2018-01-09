@@ -1,0 +1,42 @@
+=====================
+======MAKEHUBDB======
+=====================
+# credentials
+# give -c credentials path PASS
+python gtracks.py -c ./demo_service_account.json makeHubDb -p /Parent/samir
+
+# in a different directory PASS
+python gtracks.py -c ../demo_service_account.json makeHubDb -p /Parent/samir
+
+# relative credentials path
+python gtracks.py -c ~/Documents/OneDrive/gtracks.py2/demo_service_account.json\
+ makeHubDb -p /Parent/samir      PASS
+
+# invalid credentials path PASS
+python gtracks.py -c ./xxx.json makeHubDb -p /Parent/samir
+
+# out of order             FAIL
+python gtracks.py makeHubDb -p /Parent/samir -c ./demo_service_account.json
+
+###### mix order of arguments
+
+###### alternative paths
+# valid path PASS
+python gtracks.py makeHubDb -p /Parent/samir
+python gtracks.py makeHubDb -p /Parent/samir/
+python gtracks.py makeHubDb -p Parent/samir
+
+# invalid path (doesn't exist) PASS
+python gtracks.py makeHubDb -p /xxx
+python gtracks.py makeHubDb -p /Parent/xxx
+
+# default path  PASS
+python gtracks.py makeHubDb
+python gtracks.py makeHubDb -p
+
+######## EMAILS
+# good email  PASS
+python gtracks.py makeHubDb -e samiryuja@gmail.com
+
+# bad email    PASS (gspread catches bad email)
+python gtracks.py makeHubDb -e xxx@gmail.com

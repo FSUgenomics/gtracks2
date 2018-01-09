@@ -1,3 +1,7 @@
+# Fadool Example #
+##################
+fadool
+
 # Compiled Source #
 ###################
 *.pyc
@@ -9,6 +13,9 @@
 
 # Misc #
 ########
+.DS_Store
+test
 .hubDbId
 README.txt
 token_file
+todo.py

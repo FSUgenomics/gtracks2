@@ -1,0 +1,10 @@
+# saveHubDbSheetId <== write the sheet id to .hubDbId
+# print the url to it
+
+# TODO: CHECK MY INSTRUCTIONS ON GETTING A SERVICE ACCOUNT
+# TODO: create google service account for Katie, Vera
+# TODO: pylint and check test cases!!
+# TODO: make each script independent (FOR NOW)
+# TODO: allow calling from gtracks.py
+# TODO: KEEP IT SIMPLE
+# TODO: push to github!! (ignore demo_service_account)
